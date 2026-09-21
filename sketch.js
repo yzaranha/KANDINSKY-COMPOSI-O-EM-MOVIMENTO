@@ -2,8 +2,9 @@
 // KANDINSKY — COMPOSIÇÃO EM MOVIMENTO
 // Releitura interativa em p5.js
 //
-// A composição se adapta à tela inteira sem deformar.
-// Não existem instruções, pontuação ou clique.
+// A composição ocupa a tela inteira sem deformar.
+// A proporção original é preservada.
+// Pequenas partes das bordas podem ser cortadas.
 // ============================================================
 
 let circles = [];
@@ -15,7 +16,6 @@ let arcs = [];
 
 let texture;
 
-// Tamanho original da composição
 const BASE_WIDTH = 1200;
 const BASE_HEIGHT = 800;
 
@@ -32,7 +32,10 @@ function setup() {
 
   randomSeed(12);
 
-  texture = createGraphics(BASE_WIDTH, BASE_HEIGHT);
+  texture = createGraphics(
+    BASE_WIDTH,
+    BASE_HEIGHT
+  );
 
   createTexture();
 
@@ -41,25 +44,80 @@ function setup() {
 
 
 // ============================================================
-// AJUSTAR QUANDO A JANELA MUDA DE TAMANHO
+// REDIMENSIONAR A JANELA
 // ============================================================
 
 function windowResized() {
 
-  resizeCanvas(windowWidth, windowHeight);
+  resizeCanvas(
+    windowWidth,
+    windowHeight
+  );
 }
 
 
 // ============================================================
-// ESCALA DA COMPOSIÇÃO
+// ESCALA "COVER"
 // ============================================================
 
 function getScale() {
 
-  return min(
+  return max(
     width / BASE_WIDTH,
     height / BASE_HEIGHT
   );
+}
+
+
+// ============================================================
+// POSIÇÃO DA COMPOSIÇÃO NA TELA
+// ============================================================
+
+function getOffsetX() {
+
+  let s = getScale();
+
+  return (
+    width -
+    BASE_WIDTH * s
+  ) / 2;
+}
+
+
+function getOffsetY() {
+
+  let s = getScale();
+
+  return (
+    height -
+    BASE_HEIGHT * s
+  ) / 2;
+}
+
+
+// ============================================================
+// MOUSE CONVERTIDO PARA O ESPAÇO ORIGINAL
+// ============================================================
+
+function getMouseX() {
+
+  let s = getScale();
+
+  return (
+    mouseX -
+    getOffsetX()
+  ) / s;
+}
+
+
+function getMouseY() {
+
+  let s = getScale();
+
+  return (
+    mouseY -
+    getOffsetY()
+  ) / s;
 }
 
 
@@ -69,16 +127,28 @@ function getScale() {
 
 function createTexture() {
 
-  texture.background(238, 236, 218);
+  texture.background(
+    238,
+    236,
+    218
+  );
 
   texture.noStroke();
 
-  for (let i = 0; i < 18000; i++) {
+  for (
+    let i = 0;
+    i < 18000;
+    i++
+  ) {
 
-    let x = random(BASE_WIDTH);
-    let y = random(BASE_HEIGHT);
+    let x =
+      random(BASE_WIDTH);
 
-    let v = random(190, 240);
+    let y =
+      random(BASE_HEIGHT);
+
+    let v =
+      random(190, 240);
 
     texture.fill(
       v,
@@ -123,9 +193,9 @@ function createComposition() {
     inner: [91, 55, 125],
     innerR: 53,
     halo: [230, 80, 75],
-    haloSize: 1.7,
-    type: "large"
+    haloSize: 1.7
   });
+
 
   circles.push({
     x: 263,
@@ -133,9 +203,9 @@ function createComposition() {
     r: 43,
     color: [215, 32, 25],
     halo: [245, 190, 30],
-    haloSize: 1.45,
-    type: "normal"
+    haloSize: 1.45
   });
+
 
   circles.push({
     x: 113,
@@ -143,9 +213,9 @@ function createComposition() {
     r: 45,
     color: [245, 194, 28],
     halo: [80, 120, 210],
-    haloSize: 1.65,
-    type: "normal"
+    haloSize: 1.65
   });
+
 
   circles.push({
     x: 445,
@@ -153,9 +223,9 @@ function createComposition() {
     r: 43,
     color: [30, 95, 175],
     halo: [245, 205, 30],
-    haloSize: 1.55,
-    type: "normal"
+    haloSize: 1.55
   });
+
 
   circles.push({
     x: 788,
@@ -163,56 +233,55 @@ function createComposition() {
     r: 23,
     color: [35, 65, 150],
     halo: [90, 130, 210],
-    haloSize: 1.45,
-    type: "normal"
+    haloSize: 1.45
   });
+
 
   circles.push({
     x: 865,
     y: 680,
     r: 38,
-    color: [105, 62, 155],
-    type: "normal"
+    color: [105, 62, 155]
   });
+
 
   circles.push({
     x: 1020,
     y: 710,
     r: 61,
-    color: [105, 123, 116],
-    type: "normal"
+    color: [105, 123, 116]
   });
+
 
   circles.push({
     x: 930,
     y: 450,
     r: 43,
-    color: [38, 78, 155],
-    type: "normal"
+    color: [38, 78, 155]
   });
+
 
   circles.push({
     x: 650,
     y: 93,
     r: 18,
-    color: [105, 105, 125],
-    type: "small"
+    color: [105, 105, 125]
   });
+
 
   circles.push({
     x: 582,
     y: 205,
     r: 11,
-    color: [215, 40, 55],
-    type: "small"
+    color: [215, 40, 55]
   });
+
 
   circles.push({
     x: 876,
     y: 252,
     r: 34,
-    color: [190, 110, 125],
-    type: "small"
+    color: [190, 110, 125]
   });
 
 
@@ -226,9 +295,9 @@ function createComposition() {
     size: 275,
     angle: 0,
     color: [245, 226, 230],
-    stroke: [35, 35, 35],
-    type: "large"
+    stroke: [35, 35, 35]
   });
+
 
   triangles.push({
     x: 725,
@@ -236,9 +305,9 @@ function createComposition() {
     size: 66,
     angle: 0,
     color: [242, 198, 22],
-    stroke: [242, 198, 22],
-    type: "small"
+    stroke: [242, 198, 22]
   });
+
 
   triangles.push({
     x: 1035,
@@ -246,8 +315,7 @@ function createComposition() {
     size: 105,
     angle: 0,
     color: [218, 166, 28],
-    stroke: [205, 160, 20],
-    type: "small"
+    stroke: [205, 160, 20]
   });
 
 
@@ -263,6 +331,7 @@ function createComposition() {
     color: [244, 219, 78]
   });
 
+
   squares.push({
     x: 1085,
     y: 142,
@@ -270,6 +339,7 @@ function createComposition() {
     currentSize: 17,
     color: [25, 25, 25]
   });
+
 
   squares.push({
     x: 1080,
@@ -279,6 +349,7 @@ function createComposition() {
     color: [215, 45, 55]
   });
 
+
   squares.push({
     x: 1005,
     y: 288,
@@ -286,6 +357,7 @@ function createComposition() {
     currentSize: 19,
     color: [25, 25, 25]
   });
+
 
   squares.push({
     x: 1118,
@@ -308,6 +380,7 @@ function createComposition() {
     weight: 4
   });
 
+
   lines.push({
     x1: 95,
     y1: 500,
@@ -315,6 +388,7 @@ function createComposition() {
     y2: 500,
     weight: 2
   });
+
 
   lines.push({
     x1: 615,
@@ -324,6 +398,7 @@ function createComposition() {
     weight: 2
   });
 
+
   lines.push({
     x1: 450,
     y1: 630,
@@ -331,6 +406,7 @@ function createComposition() {
     y2: 360,
     weight: 4
   });
+
 
   lines.push({
     x1: 505,
@@ -353,6 +429,7 @@ function createComposition() {
     angle: -0.45,
     color: [235, 232, 214]
   });
+
 
   bars.push({
     x: 465,
@@ -378,6 +455,7 @@ function createComposition() {
     weight: 2
   });
 
+
   arcs.push({
     x: 420,
     y: 360,
@@ -388,6 +466,7 @@ function createComposition() {
     weight: 5
   });
 
+
   arcs.push({
     x: 620,
     y: 430,
@@ -397,6 +476,7 @@ function createComposition() {
     end: TWO_PI,
     weight: 2
   });
+
 
   arcs.push({
     x: 770,
@@ -411,57 +491,43 @@ function createComposition() {
 
 
 // ============================================================
-// MOUSE — CONVERTER PARA A ESCALA ORIGINAL
-// ============================================================
-
-function getMouseX() {
-
-  let scale = getScale();
-
-  let offsetX =
-    (width - BASE_WIDTH * scale) / 2;
-
-  return (mouseX - offsetX) / scale;
-}
-
-
-function getMouseY() {
-
-  let scale = getScale();
-
-  let offsetY =
-    (height - BASE_HEIGHT * scale) / 2;
-
-  return (mouseY - offsetY) / scale;
-}
-
-
-// ============================================================
 // DRAW
 // ============================================================
 
 function draw() {
 
-  background(238, 236, 218);
+  background(
+    238,
+    236,
+    218
+  );
 
-  let scaleValue = getScale();
+
+  let s =
+    getScale();
 
   let offsetX =
-    (width - BASE_WIDTH * scaleValue) / 2;
+    getOffsetX();
 
   let offsetY =
-    (height - BASE_HEIGHT * scaleValue) / 2;
+    getOffsetY();
 
 
   push();
+
 
   translate(
     offsetX,
     offsetY
   );
 
-  scale(scaleValue);
 
+  scale(s);
+
+
+  // ==========================================================
+  // PAPEL
+  // ==========================================================
 
   image(
     texture,
@@ -469,6 +535,10 @@ function draw() {
     0
   );
 
+
+  // ==========================================================
+  // ELEMENTOS
+  // ==========================================================
 
   drawBars();
 
@@ -495,34 +565,41 @@ function draw() {
 
 function drawCircles() {
 
-  let mx = getMouseX();
-  let my = getMouseY();
+  let mx =
+    getMouseX();
+
+  let my =
+    getMouseY();
 
 
   for (let c of circles) {
 
-    let d = dist(
-      mx,
-      my,
-      c.x,
-      c.y
-    );
+    let d =
+      dist(
+        mx,
+        my,
+        c.x,
+        c.y
+      );
 
 
     if (d < 250) {
 
-      let strength = map(
-        d,
-        0,
-        250,
-        0.025,
-        0,
-        true
-      );
+      let strength =
+        map(
+          d,
+          0,
+          250,
+          0.025,
+          0,
+          true
+        );
+
 
       c.x +=
         (mx - c.x) *
         strength;
+
 
       c.y +=
         (my - c.y) *
@@ -530,16 +607,26 @@ function drawCircles() {
     }
 
 
+    // ========================================================
+    // HALO
+    // ========================================================
+
     if (c.halo) {
 
       noStroke();
 
-      for (let i = 16; i > 0; i--) {
+
+      for (
+        let i = 16;
+        i > 0;
+        i--
+      ) {
 
         let factor =
           1 +
           (i / 16) *
           (c.haloSize - 1);
+
 
         let alpha =
           map(
@@ -550,12 +637,14 @@ function drawCircles() {
             22
           );
 
+
         fill(
           c.halo[0],
           c.halo[1],
           c.halo[2],
           alpha
         );
+
 
         ellipse(
           c.x,
@@ -567,13 +656,19 @@ function drawCircles() {
     }
 
 
+    // ========================================================
+    // CÍRCULO
+    // ========================================================
+
     noStroke();
+
 
     fill(
       c.color[0],
       c.color[1],
       c.color[2]
     );
+
 
     ellipse(
       c.x,
@@ -583,6 +678,10 @@ function drawCircles() {
     );
 
 
+    // ========================================================
+    // INTERIOR
+    // ========================================================
+
     if (c.inner) {
 
       fill(
@@ -590,6 +689,7 @@ function drawCircles() {
         c.inner[1],
         c.inner[2]
       );
+
 
       ellipse(
         c.x,
@@ -603,41 +703,51 @@ function drawCircles() {
 
 
 // ============================================================
-// TRIÂNGULOS — FUGA SEM SAIR DA TELA
+// TRIÂNGULOS
 // ============================================================
 
 function drawTriangles() {
 
-  let mx = getMouseX();
-  let my = getMouseY();
+  let mx =
+    getMouseX();
+
+  let my =
+    getMouseY();
 
 
   for (let t of triangles) {
 
-    let d = dist(
-      mx,
-      my,
-      t.x,
-      t.y
-    );
+    let d =
+      dist(
+        mx,
+        my,
+        t.x,
+        t.y
+      );
 
+
+    // ========================================================
+    // FUGA
+    // ========================================================
 
     if (d < 500) {
 
-      let force = map(
-        d,
-        0,
-        500,
-        1,
-        0,
-        true
-      );
+      let force =
+        map(
+          d,
+          0,
+          500,
+          1,
+          0,
+          true
+        );
 
 
-      let angle = atan2(
-        t.y - my,
-        t.x - mx
-      );
+      let angle =
+        atan2(
+          t.y - my,
+          t.x - mx
+        );
 
 
       let speed =
@@ -647,6 +757,7 @@ function drawTriangles() {
       t.x +=
         cos(angle) *
         speed;
+
 
       t.y +=
         sin(angle) *
@@ -659,31 +770,46 @@ function drawTriangles() {
     }
 
 
+    // ========================================================
+    // LIMITES
+    // ========================================================
+
     let margin =
       t.size * 0.5;
 
 
-    t.x = constrain(
-      t.x,
-      margin,
-      BASE_WIDTH - margin
-    );
+    t.x =
+      constrain(
+        t.x,
+        margin,
+        BASE_WIDTH - margin
+      );
 
-    t.y = constrain(
-      t.y,
-      margin,
-      BASE_HEIGHT - margin
-    );
 
+    t.y =
+      constrain(
+        t.y,
+        margin,
+        BASE_HEIGHT - margin
+      );
+
+
+    // ========================================================
+    // DESENHO
+    // ========================================================
 
     push();
+
 
     translate(
       t.x,
       t.y
     );
 
-    rotate(t.angle);
+
+    rotate(
+      t.angle
+    );
 
 
     fill(
@@ -692,11 +818,13 @@ function drawTriangles() {
       t.color[2]
     );
 
+
     stroke(
       t.stroke[0],
       t.stroke[1],
       t.stroke[2]
     );
+
 
     strokeWeight(2);
 
@@ -719,43 +847,57 @@ function drawTriangles() {
 
 
 // ============================================================
-// QUADRADOS — CRESCIMENTO E RETORNO
+// QUADRADOS
 // ============================================================
 
 function drawSquares() {
 
-  let mx = getMouseX();
-  let my = getMouseY();
+  let mx =
+    getMouseX();
+
+  let my =
+    getMouseY();
+
 
   rectMode(CENTER);
 
 
   for (let s of squares) {
 
-    let d = dist(
-      mx,
-      my,
-      s.x,
-      s.y
-    );
+    let d =
+      dist(
+        mx,
+        my,
+        s.x,
+        s.y
+      );
 
+
+    // ========================================================
+    // CRESCIMENTO
+    // ========================================================
 
     if (d < 400) {
 
-      let growth = map(
-        d,
-        0,
-        400,
-        3.0,
-        0.05,
-        true
-      );
+      let growth =
+        map(
+          d,
+          0,
+          400,
+          3.0,
+          0.05,
+          true
+        );
 
 
       s.currentSize +=
         growth;
     }
 
+
+    // ========================================================
+    // RETORNO
+    // ========================================================
 
     else {
 
@@ -786,6 +928,7 @@ function drawSquares() {
       s.color[2]
     );
 
+
     stroke(30);
 
     strokeWeight(1);
@@ -811,12 +954,16 @@ function drawBars() {
 
     push();
 
+
     translate(
       b.x,
       b.y
     );
 
-    rotate(b.angle);
+
+    rotate(
+      b.angle
+    );
 
 
     fill(
@@ -825,11 +972,13 @@ function drawBars() {
       b.color[2]
     );
 
+
     stroke(20);
 
     strokeWeight(2);
 
     rectMode(CENTER);
+
 
     rect(
       0,
@@ -853,6 +1002,7 @@ function drawBars() {
 
         fill(20);
 
+
         rect(
           x,
           0,
@@ -874,8 +1024,11 @@ function drawBars() {
 
 function drawLines() {
 
-  let mx = getMouseX();
-  let my = getMouseY();
+  let mx =
+    getMouseX();
+
+  let my =
+    getMouseY();
 
 
   for (
@@ -884,11 +1037,13 @@ function drawLines() {
     i++
   ) {
 
-    let l = lines[i];
+    let l =
+      lines[i];
 
 
     let centerX =
       (l.x1 + l.x2) / 2;
+
 
     let centerY =
       (l.y1 + l.y2) / 2;
@@ -903,12 +1058,16 @@ function drawLines() {
       );
 
 
+    // Movimento contínuo
+
     let baseRotation =
       sin(
         frameCount * 0.01 +
         i * 1.3
       ) * 0.035;
 
+
+    // Influência do mouse
 
     let influence =
       map(
@@ -936,12 +1095,16 @@ function drawLines() {
 
     push();
 
+
     translate(
       centerX,
       centerY
     );
 
-    rotate(rotation);
+
+    rotate(
+      rotation
+    );
 
 
     stroke(20);
@@ -982,6 +1145,7 @@ function drawArcs() {
       a.weight
     );
 
+
     arc(
       a.x,
       a.y,
@@ -1000,7 +1164,9 @@ function drawArcs() {
 
 function drawDecorativeElements() {
 
+  // ==========================================================
   // GRADE À DIREITA
+  // ==========================================================
 
   stroke(25);
 
@@ -1037,7 +1203,9 @@ function drawDecorativeElements() {
   }
 
 
+  // ==========================================================
   // PEQUENAS LINHAS NO ALTO
+  // ==========================================================
 
   line(
     485,
@@ -1046,12 +1214,14 @@ function drawDecorativeElements() {
     220
   );
 
+
   line(
     460,
     105,
     510,
     105
   );
+
 
   line(
     460,
@@ -1061,11 +1231,15 @@ function drawDecorativeElements() {
   );
 
 
+  // ==========================================================
   // PEQUENOS QUADRADOS
+  // ==========================================================
 
   noStroke();
 
+
   fill(30);
+
 
   rect(
     1090,
@@ -1077,6 +1251,7 @@ function drawDecorativeElements() {
 
   fill(110);
 
+
   rect(
     1040,
     130,
@@ -1085,13 +1260,17 @@ function drawDecorativeElements() {
   );
 
 
+  // ==========================================================
   // CÍRCULO COM ANEL
+  // ==========================================================
 
   noFill();
+
 
   stroke(20);
 
   strokeWeight(3);
+
 
   ellipse(
     755,
@@ -1107,7 +1286,9 @@ function drawDecorativeElements() {
     40
   );
 
+
   strokeWeight(2);
+
 
   ellipse(
     755,
@@ -1117,7 +1298,9 @@ function drawDecorativeElements() {
   );
 
 
+  // ==========================================================
   // PEQUENOS ARCOS INFERIORES
+  // ==========================================================
 
   stroke(70);
 
@@ -1143,7 +1326,9 @@ function drawDecorativeElements() {
   }
 
 
+  // ==========================================================
   // PEQUENAS LINHAS PARALELAS
+  // ==========================================================
 
   stroke(30);
 
